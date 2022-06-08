@@ -24,18 +24,22 @@ def main():
         active_game_state = True
         print(server_hint.decode('utf-8'))
         while active_game_state:
-            # Prompt the user for a guess.
-            guess = input("Enter a 5 letter word: ")
-            # Perform client side validation. Invalid guesses cause the game to terminate.
-            if len(guess) != 5:
-                print("Error. User input is too short.")
-                break
-            elif guess.isalpha() is False:
-                print("Error. User input is invalid.")
-                break
-            else:
-                # Valid guesses are sent to the server
-                s.send(bytes(guess, 'utf-8'))
+            guessing = True
+            guess = None
+            while guessing:
+                # Prompt the user for a guess.
+                guess = input("Enter a 5 letter word: ")
+                # Perform client side validation. Invalid guesses cause the game to prompt for a new guess.
+                if guess.isalpha() is False:
+                    print("Error. User input is invalid." + "\n")
+                elif len(guess) < 5:
+                    print("Error. User input is too short." + "\n")
+                elif len(guess) > 5:
+                    print("Error. User input is too long." + "\n")
+                else:
+                    guessing = False
+            # Valid guesses are sent to the server
+            s.send(bytes(guess, 'utf-8'))
             # If the response from the server is a numerical score, the game ends.
             # Otherwise, the game continues.
             server_response = s.recv(1024).decode('utf-8')
