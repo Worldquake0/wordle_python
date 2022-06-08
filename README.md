@@ -36,4 +36,4 @@ Note: Player guesses are not case-sensitive.
 ## Author
 Jesse Chow
 
-Last Updated: 06 May 2022
+Last Updated: 09 June 2022
